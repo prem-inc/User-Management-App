@@ -1,0 +1,15 @@
+.nav-link{
+    display: flex;
+    flex-direction: column;
+    gap: "10px";
+    align-items: center;
+    text-decoration: none;
+    color: rgb(98, 98, 158);
+    font-weight: normal
+}
+
+.nav-link.active{
+    color: white;
+    font-weight: bold;
+    justify-content: space-between;
+}
