@@ -5,6 +5,9 @@ import ManageUsers from "./pages/ManageUsers"
 import ManageRoles from "./pages/ManageRoles"
 import {Box} from '@cw/rds'
 import CreateNewUser from "./components/CreateNewUser/CreateNewUser"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import EditUserData from "./components/EditUserData/EditUserData"
 
 function App() {
 
@@ -19,9 +22,11 @@ function App() {
             <Route path="/" element={<ManageUsers/>}/>
             <Route path="/roles" element={<ManageRoles/>}/>
             <Route path="/newuser" element={<CreateNewUser/>}/>  
+            <Route path="/edituser" element={<EditUserData/>}/>  
           </Routes>
         </Box>
         </Box>
+        <ToastContainer />
       </BrowserRouter>
     </>
   )

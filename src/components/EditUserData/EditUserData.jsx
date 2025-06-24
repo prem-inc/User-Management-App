@@ -1,19 +1,31 @@
 import React, { useState } from 'react'
 import { Box, Grid, TextField, Typography, DatePicker, Radio, RadioGroup, Select, MenuItem, Button } from '@cw/rds'
-import dayjs from 'dayjs';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import dayjs from 'dayjs';
 
-const CreateNewUser = () => {
-  const [name, setName] = useState("");
-  const [userId, setUserId] = useState("");
-  const [email, setEmail] = useState("");
-  const [dob, setDOB] = useState(null);
-  const [selectedValue, setSelectedValue] = useState('active');
+const EditUserData = () => {
+  const location = useLocation();
+  const user = location.state?.user;
+
+  if(!user){
+    return(
+      <>
+        <div>No User selected. Please Navigate back to home page</div>
+      </>
+    )
+  }
+
+  const [name, setName] = useState(user.name);
+  const [userId, setUserId] = useState(user.userId);
+  const [email, setEmail] = useState(user.email);
+  const [dob, setDOB] = useState(dayjs(user.dob));
+  const [selectedValue, setSelectedValue] = useState(user.status);
   const [allRoles, setAllRoles] = useState(["Default", "Admin", "Super User", "Business User"]);
-  const [selectedRole, setSelectedRole] = useState("");
+  const [selectedRole, setSelectedRole] = useState(user.role);
   const navigate = useNavigate();
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,9 +37,9 @@ const CreateNewUser = () => {
       status: selectedValue,
       role: selectedRole
     };
-    axios.post("http://localhost:8080/save",userData)
+    axios.put(`http://localhost:8080/update/${user.key}`,userData)
     .then((response) =>{
-      toast.success("User Created Successfully!", {position: "bottom-center", autoClose: 1500})
+      toast.success("User updated Successfully!", {position: "bottom-center", autoClose: 1500})
       navigate('/')
     })
     .catch((error) => console.log(error.message))
@@ -35,15 +47,19 @@ const CreateNewUser = () => {
   const handleRadioChange = evt => {
     setSelectedValue(evt.target.value);
   };
+
+  
+
   return (
     <>
-      <Typography variant="h6">Creating New User</Typography>
+      <Typography variant="h6">Edit User</Typography>
       <Box component="form" onSubmit={handleSubmit} sx={{ marginTop: "20px" }}>
         <Grid container spacing={2}>
           <Grid item>
             <TextField
               label="Name"
               name="name"
+              value={name}
               variant='outlined'
               onChange={(e) => setName(e.target.value)}
               required
@@ -53,6 +69,7 @@ const CreateNewUser = () => {
             <TextField
               label="User ID"
               name="UserID"
+              value={userId}
               variant='outlined'
               onChange={(e) => setUserId(e.target.value)}
               required
@@ -62,6 +79,7 @@ const CreateNewUser = () => {
             <TextField
               label="Email"
               name="email"
+              value={email}
               variant='outlined'
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -97,11 +115,11 @@ const CreateNewUser = () => {
         
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 3, gap: 2, marginRight: 6 }}>
           <Button variant='secondary1' onClick={()=>navigate('/')}>Cancel</Button>
-          <Button variant='primary' type="submit">Add</Button>
+          <Button variant='primary' type="submit">Edit</Button>
         </Box>
       </Box>
     </>
   )
 }
 
-export default CreateNewUser
+export default EditUserData
