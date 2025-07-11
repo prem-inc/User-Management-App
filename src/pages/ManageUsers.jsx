@@ -14,7 +14,7 @@ const ManageUsers = () => {
   const [color,setColor] = useState("");
   
   useEffect(() => {
-    axios.get("http://localhost:8080/users")
+    axios.get("http://localhost:8080/api/users")
       .then((response) => {
         setUserData(response.data);
       })
@@ -24,12 +24,12 @@ const ManageUsers = () => {
       })
   }, [userData])
 
-  const deleteUser = (name, key) => {
+  const deleteUser = (name, id) => {
     const confirmed = window.confirm(`Are you sure you want to delete user: ${name}?`);
 
     if (!confirmed) return;
 
-    axios.delete(`http://localhost:8080/delete/${key}`)
+    axios.delete(`http://localhost:8080/api/users/${id}`)
       .then((response) => {
         toast.success("User deleted successfully!", { position: "bottom-right", autoClose: 1800, hideProgressBar: true });
       })
@@ -62,7 +62,7 @@ const ManageUsers = () => {
             {userData.map((user, index) => (
               <TableRow key={index}>
                 <TableCell>{user.name}</TableCell>
-                <TableCell>{user.userId}</TableCell>
+                <TableCell>{user.userid}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.dob}</TableCell>
                 <TableCell>{user.role}</TableCell>
@@ -72,7 +72,7 @@ const ManageUsers = () => {
                     <Pencil size='small' onClick={(e) => navigate("/edituser", {state: {user}})}/>
                   </span>
                   <span style={{ cursor: "pointer"}}>
-                    <Trash size='small' onClick={(e) => deleteUser(user.name, user.key)}/>
+                    <Trash size='small' onClick={(e) => deleteUser(user.name, user.id)}/>
                   </span>
                 </TableCell>
               </TableRow>
