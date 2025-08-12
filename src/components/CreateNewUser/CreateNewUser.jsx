@@ -97,7 +97,40 @@ const CreateNewUser = () => {
   }
   const handleRadioChange = evt => {
     setSelectedValue(evt.target.value);
+    let updateErrorMessage = errorMessage;
+    updateErrorMessage.statusError = [false, ""]
+    setErrorMessage(updateErrorMessage);
   };
+  const handleNameFieldChange = (e) => {
+    setName(e.target.value);
+    let updateErrorMessage = errorMessage;
+    updateErrorMessage.nameError = [false, ""]
+    setErrorMessage(updateErrorMessage);
+  }
+  const handleUserIdFieldChange = (e) => {
+    setUserId(e.target.value);
+    let updateErrorMessage = errorMessage;
+    updateErrorMessage.userIdError = [false, ""]
+    setErrorMessage(updateErrorMessage);
+  }
+  const handleEmailFieldChange = (e) => {
+    setEmail(e.target.value);
+    let updateErrorMessage = errorMessage;
+    updateErrorMessage.emailError = [false, ""]
+    setErrorMessage(updateErrorMessage);
+  }
+  const handleDobFieldChange = value => {
+    setDOB(value)
+    let updateErrorMessage = errorMessage;
+    updateErrorMessage.dobError = [false, ""]
+    setErrorMessage(updateErrorMessage);
+  }
+  const handleRoleFieldChange = (e) => {
+    setSelectedRole(e.target.value)
+    let updateErrorMessage = errorMessage;
+    updateErrorMessage.roleError = [false, ""]
+    setErrorMessage(updateErrorMessage);
+  }
   return (
     <>
       <Typography variant="h6">Creating New User</Typography>
@@ -107,8 +140,9 @@ const CreateNewUser = () => {
             <TextField
               label="Name"
               name="name"
+              value={name}
               variant='outlined'
-              onChange={(e) => setName(e.target.value)}
+              onChange={handleNameFieldChange}
               error={errorMessage.nameError[0]}
               helperText={errorMessage.nameError[1]}
               required
@@ -117,9 +151,10 @@ const CreateNewUser = () => {
           <Grid item>
             <TextField
               label="User Id"
-              name="UserID"
+              name="userid"
+              value={userId}
               variant='outlined'
-              onChange={(e) => setUserId(e.target.value)}
+              onChange={handleUserIdFieldChange}
               error={errorMessage.userIdError[0]}
               helperText={errorMessage.userIdError[1]}
               required
@@ -129,8 +164,9 @@ const CreateNewUser = () => {
             <TextField
               label="Email"
               name="email"
+              value={email}
               variant='outlined'
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmailFieldChange}
               required
               error={errorMessage.emailError[0]}
               helperText={errorMessage.emailError[1]}
@@ -140,7 +176,7 @@ const CreateNewUser = () => {
             <DatePicker 
             label='Date of Birth' 
             value={dob} 
-            onChange={newValue => setDOB(newValue)} 
+            onChange={handleDobFieldChange} 
             error={errorMessage.dobError[0]}
             helperText={errorMessage.dobError[1]}
             required />
@@ -164,7 +200,7 @@ const CreateNewUser = () => {
               variant='outlined'
               placeholder='Select an option'
               value={selectedRole}
-              onChange={(e) => setSelectedRole(e.target.value)}
+              onChange={handleRoleFieldChange}
               error={errorMessage.roleError[0]}
               helperText={errorMessage.roleError[1]}
               >
